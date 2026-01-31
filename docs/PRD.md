@@ -120,7 +120,29 @@ An AI-powered web application that:
 
 ---
 
-### 2.6 Distributor Integration (DIST)
+### 2.6 Part Builder (PB)
+
+> [!NOTE]
+> Added 2026-02-01 based on user requirements for a requirements-first workflow.
+
+| ID | Requirement | Priority | Acceptance Criteria |
+|----|-------------|----------|---------------------|
+| PB-001 | Part Builder shall use requirements-first workflow | P1 | User specifies contacts first, then selects insert |
+| PB-002 | System shall search for insert arrangements by contact requirements | P1 | API returns matching inserts for given contact sizes/quantities |
+| PB-003 | Part Builder shall show only Contact Size and Quantity in Step 1 | P1 | No Pin/Socket selection until Step 3 |
+| PB-004 | System shall categorize insert matches (exact, close, over) | P1 | Match type badge shown on each insert card |
+| PB-005 | Part Builder shall gray-out unavailable options (Mouser/DigiKey style) | P1 | Unavailable items dimmed, striped, non-clickable |
+| PB-006 | System shall show availability indicator (Standard/Special Order) | P1 | Green for standard, yellow for special |
+| PB-007 | Part Builder shall generate MIL-spec part numbers only | P1 | Format: D38999/XXYZ-NNSN |
+| PB-008 | Part Builder shall show contact ordering info (M39029 part numbers) | P1 | Contact part numbers displayed with quantities |
+| PB-009 | System shall calculate seal plug requirements for unused positions | P2 | Seal plug part numbers and quantities shown |
+| PB-010 | Part Builder shall have 4-step wizard UI | P1 | Steps: Requirements → Insert → Configure → Part Number |
+| PB-011 | System shall provide part number verification workflow | P2 | Workflow to check PN on Octopart/Mouser/DigiKey |
+| PB-012 | Part Builder shall support mixed contact sizes | P1 | e.g., 15× 22D + 3× 16 in single insert |
+
+---
+
+### 2.7 Distributor Integration (DIST)
 
 | ID | Requirement | Priority | Acceptance Criteria |
 |----|-------------|----------|---------------------|
@@ -137,7 +159,7 @@ An AI-powered web application that:
 
 ---
 
-### 2.7 User Experience (UX)
+### 2.8 User Experience (UX)
 
 | ID | Requirement | Priority | Acceptance Criteria |
 |----|-------------|----------|---------------------|
@@ -367,3 +389,4 @@ All scope changes shall be:
 |---------|------|--------|---------|
 | 1.0 | 2026-01-31 | Antigravity | Initial draft |
 | 1.1 | 2026-01-31 | Antigravity | Added: Detailed progress tracking (PDF-012 to PDF-015), Archiving/versioning (DB-009 to DB-011), Changed DB to SQLite for dev |
+| 1.2 | 2026-02-01 | Antigravity | Added: Part Builder section (PB-001 to PB-012) with requirements-first workflow, availability gray-out, MIL part numbers |

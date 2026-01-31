@@ -1,0 +1,226 @@
+2026-01-31 22:03:35 | DEBUG    | asyncio | Using proactor: IocpProactor
+2026-01-31 22:03:35 | INFO     | __main__ | ============================================================
+2026-01-31 22:03:35 | INFO     | __main__ | STARTING PDF PROCESSING TEST
+2026-01-31 22:03:35 | INFO     | __main__ | ============================================================
+2026-01-31 22:03:35 | INFO     | __main__ | Initializing database...
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing <function connect.<locals>.connector at 0x0000021EA4FE6980>
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation <function connect.<locals>.connector at 0x0000021EA4FE6980> completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000021EA4FE18A0>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x0000021EA4FE5C60>, deterministic=True)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000021EA4FE18A0>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x0000021EA4FE5C60>, deterministic=True) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000021EA4FE18A0>, 'floor', 1, <built-in function floor>, deterministic=True)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000021EA4FE18A0>, 'floor', 1, <built-in function floor>, deterministic=True) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9540>, 'PRAGMA read_uncommitted', [])
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9540>, 'PRAGMA read_uncommitted', []) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9540>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9540>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9540>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9540>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA4FE18A0>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA4FE18A0>) completed
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | BEGIN (implicit)
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | PRAGMA main.table_info("datasheets")
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | [raw sql] ()
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("datasheets")', ())
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("datasheets")', ()) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | PRAGMA main.table_info("datasheet_revisions")
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | [raw sql] ()
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("datasheet_revisions")', ())
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("datasheet_revisions")', ()) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | PRAGMA main.table_info("part_schemas")
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | [raw sql] ()
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("part_schemas")', ())
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("part_schemas")', ()) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | PRAGMA main.table_info("spec_fields")
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | [raw sql] ()
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("spec_fields")', ())
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("spec_fields")', ()) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | PRAGMA main.table_info("part_variants")
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | [raw sql] ()
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("part_variants")', ())
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("part_variants")', ()) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | PRAGMA main.table_info("distributor_listings")
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | [raw sql] ()
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA4FE18A0>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("distributor_listings")', ())
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA4FD9A40>, 'PRAGMA main.table_info("distributor_listings")', ()) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA4FD9A40>) completed
+2026-01-31 22:03:35 | INFO     | sqlalchemy.engine.Engine | COMMIT
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000021EA4FE18A0>)
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000021EA4FE18A0>) completed
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA4FE18A0>)
+2026-01-31 22:03:35 | INFO     | __main__ | Database initialized
+2026-01-31 22:03:35 | DEBUG    | aiosqlite | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA4FE18A0>) completed
+2026-01-31 22:03:35 | INFO     | __main__ | Testing with PDF: 29e8b626-0c40-4c7b-8366-63059fbb36d3_amphenolaerospace_D38999_IIIseriesTV-1157224.pdf
+2026-01-31 22:03:35 | INFO     | __main__ | Datasheet ID: 29e8b626-0c40-4c7b-8366-63059fbb36d3
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing <function connect.<locals>.connector at 0x0000021EA6762660>
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation <function connect.<locals>.connector at 0x0000021EA6762660> completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000021EA676C220>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x0000021EA4FE7F60>, deterministic=True)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000021EA676C220>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x0000021EA4FE7F60>, deterministic=True) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000021EA676C220>, 'floor', 1, <built-in function floor>, deterministic=True)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000021EA676C220>, 'floor', 1, <built-in function floor>, deterministic=True) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA673F4C0>, 'PRAGMA read_uncommitted', [])
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA673F4C0>, 'PRAGMA read_uncommitted', []) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA673F4C0>)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA673F4C0>) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA673F4C0>)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA673F4C0>) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA6796E40>, 'SELECT datasheets.id, datasheets.name, datasheets.manufacturer, datasheets.part_family, datasheets.version, datasheets.filename, datasheets.file_path, datasheets.file_size, datasheets.status, datasheets.progress_percent, datasheets.progress_message, datasheets.error_message, datasheets.raw_extraction, datasheets.is_deleted, datasheets.is_archived, datasheets.deleted_at, datasheets.created_at, datasheets.updated_at \nFROM datasheets \nWHERE datasheets.id = ?', ('29e8b626-0c40-4c7b-8366-63059fbb36d3',))
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA6796E40>, 'SELECT datasheets.id, datasheets.name, datasheets.manufacturer, datasheets.part_family, datasheets.version, datasheets.filename, datasheets.file_path, datasheets.file_size, datasheets.status, datasheets.progress_percent, datasheets.progress_message, datasheets.error_message, datasheets.raw_extraction, datasheets.is_deleted, datasheets.is_archived, datasheets.deleted_at, datasheets.created_at, datasheets.updated_at \nFROM datasheets \nWHERE datasheets.id = ?', ('29e8b626-0c40-4c7b-8366-63059fbb36d3',)) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA6796E40>)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EA6796E40>) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA6796E40>)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA6796E40>) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA6796E40>, 'UPDATE datasheets SET progress_percent=?, progress_message=?, updated_at=? WHERE datasheets.id = ?', (5.0, 'Initializing PDF parser...', '2026-01-31 16:33:36.802919', '29e8b626-0c40-4c7b-8366-63059fbb36d3'))
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA6796E40>, 'UPDATE datasheets SET progress_percent=?, progress_message=?, updated_at=? WHERE datasheets.id = ?', (5.0, 'Initializing PDF parser...', '2026-01-31 16:33:36.802919', '29e8b626-0c40-4c7b-8366-63059fbb36d3')) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA6796E40>)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA6796E40>) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:36 | DEBUG    | aiosqlite | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:52 | INFO     | services.pdf_parser | Docling imports successful
+2026-01-31 22:03:52 | INFO     | services.pdf_parser | Docling configured with OCR disabled
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EC4D3AB40>, 'UPDATE datasheets SET progress_percent=?, progress_message=?, updated_at=? WHERE datasheets.id = ?', (15.0, 'Parsing PDF structure...', '2026-01-31 16:33:52.119167', '29e8b626-0c40-4c7b-8366-63059fbb36d3'))
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EC4D3AB40>, 'UPDATE datasheets SET progress_percent=?, progress_message=?, updated_at=? WHERE datasheets.id = ?', (15.0, 'Parsing PDF structure...', '2026-01-31 16:33:52.119167', '29e8b626-0c40-4c7b-8366-63059fbb36d3')) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EC4D3AB40>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EC4D3AB40>) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:52 | INFO     | docling.datamodel.document | detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-01-31 22:03:52 | ERROR    | services.pdf_parser | PDF processing failed for 29e8b626-0c40-4c7b-8366-63059fbb36d3: 'PdfPipelineOptions' object has no attribute 'backend'
+2026-01-31 22:03:52 | ERROR    | services.pdf_parser | Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\services\pdf_parser.py", line 152, in process_datasheet_pdf
+    result_doc = converter.convert(file_path)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\pydantic\_internal\_validate_call.py", line 39, in wrapper_function
+    return wrapper(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\pydantic\_internal\_validate_call.py", line 136, in __call__
+    res = self.__pydantic_validator__.validate_python(pydantic_core.ArgsKwargs(args, kwargs))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\docling\document_converter.py", line 325, in convert
+    return next(all_res)
+           ^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\docling\document_converter.py", line 368, in convert_all
+    for conv_res in conv_res_iter:
+                    ^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\docling\document_converter.py", line 445, in _convert
+    for input_batch in chunkify(
+                       ^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\docling\utils\utils.py", line 15, in chunkify
+    for first in iterator:  # Take the first element from the iterator
+                 ^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\docling\datamodel\document.py", line 467, in docs
+    backend = options.backend
+              ^^^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\pydantic\main.py", line 1026, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'PdfPipelineOptions' object has no attribute 'backend'
+
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EC6C6C7C0>, 'SELECT datasheets.id, datasheets.name, datasheets.manufacturer, datasheets.part_family, datasheets.version, datasheets.filename, datasheets.file_path, datasheets.file_size, datasheets.status, datasheets.progress_percent, datasheets.progress_message, datasheets.error_message, datasheets.raw_extraction, datasheets.is_deleted, datasheets.is_archived, datasheets.deleted_at, datasheets.created_at, datasheets.updated_at \nFROM datasheets \nWHERE datasheets.id = ?', ('29e8b626-0c40-4c7b-8366-63059fbb36d3',))
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EC6C6C7C0>, 'SELECT datasheets.id, datasheets.name, datasheets.manufacturer, datasheets.part_family, datasheets.version, datasheets.filename, datasheets.file_path, datasheets.file_size, datasheets.status, datasheets.progress_percent, datasheets.progress_message, datasheets.error_message, datasheets.raw_extraction, datasheets.is_deleted, datasheets.is_archived, datasheets.deleted_at, datasheets.created_at, datasheets.updated_at \nFROM datasheets \nWHERE datasheets.id = ?', ('29e8b626-0c40-4c7b-8366-63059fbb36d3',)) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EC6C6C7C0>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000021EC6C6C7C0>) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EC6C6C7C0>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EC6C6C7C0>) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA673F740>, 'UPDATE datasheets SET status=?, progress_message=?, updated_at=? WHERE datasheets.id = ?', ('ERROR', 'Processing failed', '2026-01-31 16:33:52.479093', '29e8b626-0c40-4c7b-8366-63059fbb36d3'))
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000021EA673F740>, 'UPDATE datasheets SET status=?, progress_message=?, updated_at=? WHERE datasheets.id = ?', ('ERROR', 'Processing failed', '2026-01-31 16:33:52.479093', '29e8b626-0c40-4c7b-8366-63059fbb36d3')) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA673F740>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000021EA673F740>) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:52 | INFO     | services.pdf_parser | Updated datasheet 29e8b626-0c40-4c7b-8366-63059fbb36d3 status to ERROR
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Connection object at 0x0000021EA676C220>)
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Connection object at 0x0000021EA676C220>) completed
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | executing <function Connection.stop.<locals>.close_and_stop at 0x0000021EA67628E0>
+2026-01-31 22:03:52 | DEBUG    | aiosqlite | operation <function Connection.stop.<locals>.close_and_stop at 0x0000021EA67628E0> completed
+2026-01-31 22:03:52 | INFO     | services.pdf_parser | Disposed database engine for 29e8b626-0c40-4c7b-8366-63059fbb36d3
+2026-01-31 22:03:52 | ERROR    | __main__ | Processing failed
+Traceback (most recent call last):
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\test_processing.py", line 58, in test_pdf_processing
+    await process_datasheet_pdf(datasheet_id, str(test_pdf))
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\services\pdf_parser.py", line 152, in process_datasheet_pdf
+    result_doc = converter.convert(file_path)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\pydantic\_internal\_validate_call.py", line 39, in wrapper_function
+    return wrapper(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\pydantic\_internal\_validate_call.py", line 136, in __call__
+    res = self.__pydantic_validator__.validate_python(pydantic_core.ArgsKwargs(args, kwargs))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\docling\document_converter.py", line 325, in convert
+    return next(all_res)
+           ^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\docling\document_converter.py", line 368, in convert_all
+    for conv_res in conv_res_iter:
+                    ^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\docling\document_converter.py", line 445, in _convert
+    for input_batch in chunkify(
+                       ^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\docling\utils\utils.py", line 15, in chunkify
+    for first in iterator:  # Take the first element from the iterator
+                 ^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\docling\datamodel\document.py", line 467, in docs
+    backend = options.backend
+              ^^^^^^^^^^^^^^^
+  File "C:\Users\kjara\Documents\GitHub\Datasheet Part Selector\backend\venv\Lib\site-packages\pydantic\main.py", line 1026, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'PdfPipelineOptions' object has no attribute 'backend'
+2026-01-31 22:03:52 | INFO     | __main__ | ============================================================
+2026-01-31 22:03:52 | INFO     | __main__ | TEST COMPLETE
+2026-01-31 22:03:52 | INFO     | __main__ | ============================================================

@@ -110,7 +110,28 @@
 
 ---
 
-## 6. Distributor Integration (DIST)
+## 6. Part Builder (PB)
+
+> Added 2026-02-01 - Requirements-first workflow for D38999 connectors
+
+| ID | Requirement | Priority | Status | Implementation | Verification | Notes |
+|----|-------------|----------|--------|----------------|--------------|-------|
+| PB-001 | Requirements-first workflow | P1 | ✅ | `pages/PartBuilder.jsx` | 4-step wizard | User specifies contacts first |
+| PB-002 | Insert search by contact requirements | P1 | ✅ | `routers/part_builder.py` | API tested | Returns exact/close/over matches |
+| PB-003 | Step 1 shows only Size + Quantity | P1 | ✅ | `pages/PartBuilder.jsx` | UI verified | Pin/Socket in Step 3 |
+| PB-004 | Match categorization (exact/close/over) | P1 | ✅ | `routers/part_builder.py` | Badges shown | Color-coded badges |
+| PB-005 | Gray-out unavailable options | P1 | ✅ | `pages/PartBuilder.jsx` | Visual inspection | Mouser/DigiKey style |
+| PB-006 | Availability indicator | P1 | ✅ | `pages/PartBuilder.jsx` | Standard/Special shown | Green/yellow indicators |
+| PB-007 | MIL-spec part numbers only | P1 | ✅ | `routers/part_builder.py` | Format verified | D38999/XXYZ-NNSN |
+| PB-008 | Contact ordering info (M39029) | P1 | ✅ | `pages/PartBuilder.jsx` | Part numbers shown | Pin/socket part numbers |
+| PB-009 | Seal plug calculation | P2 | ⬜ | — | — | Future enhancement |
+| PB-010 | 4-step wizard UI | P1 | ✅ | `pages/PartBuilder.jsx` | Steps verified | Requirements→Insert→Config→PN |
+| PB-011 | Part number verification workflow | P2 | ✅ | `.agent/workflows/` | Workflow created | `/verify-part-number` |
+| PB-012 | Mixed contact sizes support | P1 | ✅ | `routers/part_builder.py` | API tested | 15×22D + 3×16 works |
+
+---
+
+## 7. Distributor Integration (DIST)
 
 | ID | Requirement | Priority | Status | Implementation | Verification | Notes |
 |----|-------------|----------|--------|----------------|--------------|-------|
@@ -127,7 +148,7 @@
 
 ---
 
-## 7. User Experience (UX)
+## 8. User Experience (UX)
 
 | ID | Requirement | Priority | Status | Implementation | Verification | Notes |
 |----|-------------|----------|--------|----------------|--------------|-------|
@@ -141,7 +162,7 @@
 
 ---
 
-## 8. Non-Functional Requirements (NFR)
+## 9. Non-Functional Requirements (NFR)
 
 | ID | Requirement | Priority | Status | Implementation | Verification | Notes |
 |----|-------------|----------|--------|----------------|--------------|-------|
@@ -156,7 +177,7 @@
 
 ---
 
-## 9. Scope Changes Log
+## 10. Scope Changes Log
 
 | ID | Date | Description | Impact | Status | Approved By |
 |----|------|-------------|--------|--------|-------------|
@@ -164,10 +185,11 @@
 | SC-002 | 2026-01-31 | Added detailed progress tracking (PDF-012 to PDF-015) | +4 reqs | ✅ | User |
 | SC-003 | 2026-01-31 | Added archiving/versioning (DB-009 to DB-011) | +3 reqs | ✅ | User |
 | SC-004 | 2026-01-31 | Changed DB from PostgreSQL to SQLite for dev | Simpler setup | ✅ | User |
+| SC-005 | 2026-02-01 | Added Part Builder (PB-001 to PB-012) | +12 reqs | ✅ | User |
 
 ---
 
-## 10. Summary Statistics
+## 11. Summary Statistics
 
 | Category | Total | P1 | P2 | P3 | Complete | In Progress |
 |----------|-------|----|----|----|---------:|------------:|
@@ -176,16 +198,18 @@
 | DB | 11 | 8 | 2 | 1 | 0 | 0 |
 | UI | 10 | 7 | 3 | 0 | 0 | 0 |
 | CFG | 10 | 7 | 2 | 1 | 0 | 0 |
+| **PB** | **12** | **10** | **2** | **0** | **11** | **0** |
 | DIST | 10 | 2 | 7 | 1 | 0 | 0 |
 | UX | 7 | 2 | 2 | 3 | 0 | 0 |
 | NFR | 8 | 3 | 3 | 2 | 0 | 0 |
-| **TOTAL** | **79** | **44** | **25** | **10** | **0** | **0** |
+| **TOTAL** | **91** | **54** | **27** | **10** | **11** | **0** |
 
 ---
 
-## 11. Revision History
+## 12. Revision History
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.0 | 2026-01-31 | Antigravity | Initial matrix creation |
 | 1.1 | 2026-01-31 | Antigravity | Added PDF-012 to PDF-015, DB-009 to DB-011, updated SYS-004 |
+| 1.2 | 2026-02-01 | Antigravity | Added Part Builder section (PB-001 to PB-012), 11/12 complete |
