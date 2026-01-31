@@ -1,0 +1,27 @@
+# Environment
+.env
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Database
+*.db
+*.sqlite
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads (keep .gitkeep)
+datasheets/*.pdf
+!datasheets/.gitkeep
