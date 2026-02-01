@@ -20,6 +20,7 @@ function GuidedSelector() {
     const [isChatVisible, setIsChatVisible] = useState(true);
     const [chatWidth, setChatWidth] = useState(400); // Default width in px
     const [isResizing, setIsResizing] = useState(false);
+    const [copied, setCopied] = useState(false);
     const sidebarRef = useRef(null);
 
     // Auto-create session on mount (GPS-001)
@@ -74,12 +75,21 @@ function GuidedSelector() {
         // ... (existing code) ...
         console.log("Decoding part:", partNumber);
         setShowQuickGuide(false);
+        setCopied(false); // Reset copy state
         try {
             const data = await partsAPI.decode(partNumber);
             setSelectedContext({ type: 'part', data });
         } catch (error) {
             console.error("Failed to decode part:", error);
             setSelectedContext({ type: 'part-error', partNumber, error: error.message });
+        }
+    };
+
+    const copyToClipboard = () => {
+        if (selectedContext?.type === 'part' && selectedContext.data?.part_number) {
+            navigator.clipboard.writeText(selectedContext.data.part_number);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
         }
     };
 
@@ -132,6 +142,7 @@ function GuidedSelector() {
                             setShowQuickGuide(!showQuickGuide);
                             if (!showQuickGuide) setSelectedContext(null);
                         }}
+                        title={showQuickGuide ? "Close Quick Reference" : "Open Quick Reference"}
                     >
                         {showQuickGuide ? '📘 Hide Guide' : '📘 Quick Guide'}
                     </button>
@@ -143,7 +154,7 @@ function GuidedSelector() {
                     <div className="snippet-view">
                         <div className="snippet-header">
                             <h4>Source Document</h4>
-                            <button onClick={() => setSelectedContext(null)}>✕</button>
+                            <button onClick={() => setSelectedContext(null)} title="Close source view">✕</button>
                         </div>
                         <div className="snippet-content">
                             <PDFSnippet
@@ -158,7 +169,7 @@ function GuidedSelector() {
                     <div className="part-view">
                         <div className="part-header">
                             <h4>Selected Part</h4>
-                            <button onClick={() => setSelectedContext(null)}>✕</button>
+                            <button onClick={() => setSelectedContext(null)} title="Close part view">✕</button>
                         </div>
                         <div className="part-card">
                             <input
@@ -176,6 +187,13 @@ function GuidedSelector() {
                                 }}
                                 title="Click to edit part number"
                             />
+                            <button
+                                className={`copy-btn ${copied ? 'copied' : ''}`}
+                                onClick={copyToClipboard}
+                                title="Copy part number"
+                            >
+                                {copied ? '✓' : '📋'}
+                            </button>
                             {selectedContext.data.is_valid ? (
                                 <div className="part-specs">
                                     <h5>Specifications</h5>
@@ -520,6 +538,7 @@ function GuidedSelector() {
                     margin-bottom: 1.5rem;
                     padding-bottom: 1rem;
                     border-bottom: 1px solid var(--border-subtle);
+                    position: relative; /* For copy button positioning */
                 }
                 .part-number-input {
                     font-family: var(--font-mono);
@@ -534,7 +553,30 @@ function GuidedSelector() {
                     border-bottom: 1px solid var(--border-subtle);
                     border-radius: var(--radius-sm);
                     transition: all 0.2s;
+                    padding-right: 3rem; /* Space for copy button */
                 }
+                
+                .copy-btn {
+                    position: absolute;
+                    right: 1.5rem; /* Matches padding of container */
+                    top: 1.5rem;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 1.2rem;
+                    color: var(--text-muted);
+                    transition: all 0.2s;
+                    padding: 0.25rem;
+                    border-radius: 4px;
+                }
+                .copy-btn:hover {
+                    background: rgba(0,0,0,0.05);
+                    color: var(--text-primary);
+                }
+                .copy-btn.copied {
+                    color: var(--success);
+                }
+                
                 .part-number-input:hover {
                     background: var(--bg-tertiary);
                     border-color: var(--border-subtle);

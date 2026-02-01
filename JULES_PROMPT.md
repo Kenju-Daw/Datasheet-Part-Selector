@@ -1,7 +1,66 @@
-<instruction>You are an expert software engineer. You are working on a WIP branch. Please run `git status` and `git diff` to understand the changes and the current state of the code. Analyze the workspace context and complete the mission brief.</instruction>
+<!-- JULES_PROMPT: Generated at 2026-02-01T23:34:19.427298 -->
+<instruction>
+You are an expert software engineer taking over a project. 
+Your first goal is to understand the current state and the immediate next steps defined in the `task.md`.
+Review the context below to orient yourself.
+</instruction>
+
 <workspace_context>
+<project_structure>
+Datasheet Part Selector/
+    JULES_PROMPT.md
+    README.md
+    backend/
+        check_db.py
+        clear_stuck.py
+        config.py
+        logging_config.py
+        main.py
+        parsed_results.md
+        test_docling.py
+        test_processing.py
+        user_settings.json
+        data/
+            connector_knowledge.json
+        logs/
+        models/
+            database.py
+            schemas.py
+            __init__.py
+        routers/
+            chat.py
+            datasheets.py
+            parts.py
+            part_builder.py
+            settings.py
+            __init__.py
+        services/
+            chat_engine.py
+            knowledge_base.py
+            llm_processor.py
+            pdf_parser.py
+            __init__.py
+    datasheets/
+    docs/
+        COMPLIANCE_MATRIX.md
+        DEVELOPMENT_GUIDELINES.md
+        PRD.md
+    frontend/
+        index.html
+        package-lock.json
+        package.json
+        vite.config.js
+        dist/
+            index.html
+        src/
+            App.jsx
+            index.css
+            main.jsx
+
+</project_structure>
+
 <artifacts>
---- CURRENT TASK CHECKLIST ---
+# Current Task Status (task.md)
 # Chat Context Grounding - Task Tracker
 
 ## Current Focus: ✅ Complete
@@ -85,14 +144,28 @@
 - [x] Implement Resizable Split-Pane (Draggable divider)
 - [x] verify changes via code review (Browser tool unavailable)
 
----
+## Phase 14: Jules Handoff Skill (Workflow & Cost Opt)
+**Goal**: Automate context packaging for "Jules" (lesser/specialized model) to save rate limits and ensure smooth handoffs.
+
+- [x] Analyze `JULES_PROMPT.md` format (Done)
+- [x] Create `.agent/skills/jules-handoff/SKILL.md` (Definition)
+- [x] Create `.agent/workflows/handoff-to-jules.md` (Automation)
+- [x] Implement `generate_handoff.py` script (if needed) or just use `write_to_file` in workflow
+- [x] Verify handoff generation works by running the workflow
+
+## Phase 15: Polish & Maintenance (Jules Candidates)
+- [ ] Add tooltips to all buttons in Guided Selector (UI Polish)
+- [ ] Ensure all API error messages are user-friendly (UX)
+- [ ] Run linting on frontend files and fix warnings (Maintenance)
+- [ ] Add "Copy to Clipboard" button for part numbers (Feature)
 
 ## Verification
 - [x] Test chat with D38999 context
 - [x] Verified specific part numbers in response
 - [x] Confirmed M39029 contact info included
 
---- IMPLEMENTATION PLAN ---
+
+# Implementation Plan
 # Knowledge Base Development Guide
 
 ## Overview
@@ -307,10 +380,47 @@ flowchart LR
   - [x] `get_inserts()` – Return insert list
   - [x] `get_finishes()` – Return finish list
   - [x] `generate_grounded_prompt()` – Build LLM context
+- [x] Create verification script `verify_multi.ps1` (150 pins test)
+- [x] Create verification script `verify_all_awg.ps1` (Size 20, 16, 12 tests)
+- [x] Fix Logic: Allow same-connector pairs & trigger on partial matches
+- [x] Adjust threshold/logic (Current: >128 pins. Valid for physical constraints)
+- [x] Confirm frontend displays multi-connector suggestions correctly (Code verified in PartBuilder.jsx)
+
+## Phase 13: UI Enhancements (Guided Selector)
+- [x] Add "Proactive" starter prompts to Chat Interface (Find Part, Explain Series, etc.)
+- [x] Implement collapsible Chat Sidebar (Hide/Show)
+- [x] Implement Resizable Split-Pane (Draggable divider)
+- [x] verify changes via code review (Browser tool unavailable)
+
+## Phase 14: Jules Handoff Skill (Workflow & Cost Opt)
+**Goal**: Automate context packaging for "Jules" (lesser/specialized model) to save rate limits and ensure smooth handoffs.
+
+### Strategy
+- **Standardized Prompt**: Create a reusable `SKILL.md` that generates a context file.
+- **Automation**: Use a workflow to pull latest `task.md` and `status` into the prompt.
+- **Cost Savings**: By pre-packaging context, we reduce the need for Jules to reason over the entire codebase from scratch.
+
+### Artifacts
+- `.agent/skills/jules-handoff/SKILL.md`
+- `.agent/workflows/handoff-to-jules.md`
 - [x] Modify `part_builder.py` to use `knowledge_base.py`
 - [x] Modify `chat_engine.py` to use `knowledge_base.py`
 - [x] Write validation test script (Embedded in knowledge_base.py CLI)
 - [x] Document in SKILL.md (See this guide)
+
 </artifacts>
 </workspace_context>
-<mission_brief>[Describe your task here...]</mission_brief>
+
+<mission_brief>
+1. Review the unchecked items in `task.md`.
+2. Continue execution from the last checked item.
+3. If unsure, ask the user for clarification.
+
+## Escalation Protocol
+If you encounter:
+- A logic error you cannot fix in 2 attempts
+- Missing context that is not in the file tree
+- A complex architectural decision
+
+STOP. Do not guess. Tell the user: "I need to escalate this to Antigravity."
+</mission_brief>

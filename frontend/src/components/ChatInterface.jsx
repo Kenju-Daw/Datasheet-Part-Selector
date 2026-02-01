@@ -227,7 +227,7 @@ function ChatInterface({ sessionId, onSourceClick, onPartClick }) {
                     placeholder="Ask about parts (e.g., 'Find a jam nut receptacle...')"
                     disabled={loading || !sessionId}
                 />
-                <button type="submit" disabled={loading || !sessionId || !input.trim()}>
+                <button type="submit" disabled={loading || !sessionId || !input.trim()} title="Send message">
                     ➤
                 </button>
             </form>
