@@ -11,6 +11,7 @@ Purpose:
 """
 import json
 import logging
+import jsonschema
 from pathlib import Path
 from functools import lru_cache
 from typing import Dict, List, Optional, Any
@@ -19,6 +20,27 @@ logger = logging.getLogger(__name__)
 
 # Path to knowledge base JSON
 KB_PATH = Path(__file__).parent.parent / "data" / "connector_knowledge.json"
+SCHEMA_PATH = Path(__file__).parent.parent / "data" / "schemas" / "connector_schema.json"
+
+
+def validate_knowledge(data: dict) -> bool:
+    """Validate KB against JSON Schema."""
+    if not SCHEMA_PATH.exists():
+        logger.warning(f"Schema not found at {SCHEMA_PATH}, skipping validation.")
+        return True
+
+    try:
+        with open(SCHEMA_PATH, "r", encoding="utf-8") as f:
+            schema = json.load(f)
+
+        jsonschema.validate(instance=data, schema=schema)
+        return True
+    except jsonschema.ValidationError as e:
+        logger.error(f"KB Validation Failed: {e.message}")
+        raise e
+    except Exception as e:
+        logger.error(f"Schema validation error: {e}")
+        raise e
 
 
 @lru_cache(maxsize=1)
@@ -34,6 +56,9 @@ def load_knowledge() -> Dict[str, Any]:
     with open(KB_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
     
+    # Validate against schema
+    validate_knowledge(data)
+
     logger.info(f"Loaded knowledge base v{data['metadata']['version']}")
     return data
 

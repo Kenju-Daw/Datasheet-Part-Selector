@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": { "type": "string" },
+        "last_updated": { "type": "string" },
+        "source_documents": { "type": "array", "items": { "type": "string" } },
+        "purpose": { "type": "string" },
+        "changelog": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["version", "last_updated"]
+    },
+    "shell_sizes": {
+      "type": "object",
+      "patternProperties": {
+        "^\\d+$": {
+          "type": "object",
+          "properties": {
+            "letter": { "type": "string" },
+            "max_contacts": { "type": "integer" }
+          },
+          "required": ["letter", "max_contacts"]
+        }
+      }
+    },
+    "contact_sizes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "awg_range": { "type": "string" },
+          "amps": { "type": "number" },
+          "description": { "type": "string" }
+        },
+        "required": ["code", "awg_range", "amps", "description"]
+      }
+    },
+    "insert_arrangements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "shell": { "type": "string" },
+          "total": { "type": "integer" },
+          "contacts": {
+             "type": "object",
+             "additionalProperties": { "type": "integer" }
+          },
+          "rating": { "type": "string" },
+          "is_mil_standard": { "type": "boolean" },
+          "notes": { "type": "string" },
+          "source_ref": { "type": "string" }
+        },
+        "required": ["code", "shell", "total", "contacts", "rating", "is_mil_standard"]
+      }
+    },
+    "connector_types": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "is_mil_standard": { "type": "boolean" }
+        },
+        "required": ["code", "name", "description", "is_mil_standard"]
+      }
+    },
+    "shell_finishes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "rohs_compliant": { "type": "boolean" }
+        },
+        "required": ["code", "name", "description", "rohs_compliant"]
+      }
+    },
+    "contact_part_numbers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "pin": { "type": "string" },
+          "socket": { "type": "string" },
+          "seal": { "type": ["string", "null"] }
+        },
+        "required": ["pin", "socket"]
+      }
+    },
+    "critical_notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["metadata", "shell_sizes", "contact_sizes", "insert_arrangements", "connector_types", "shell_finishes", "contact_part_numbers", "critical_notes"]
+}
