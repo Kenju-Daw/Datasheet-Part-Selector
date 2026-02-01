@@ -5,6 +5,8 @@ import Upload from './pages/Upload';
 import Configurator from './pages/Configurator';
 import Search from './pages/Search';
 import PartBuilder from './pages/PartBuilder';
+import GuidedSelector from './pages/GuidedSelector';
+import Settings from './pages/Settings';
 
 function App() {
     return (
@@ -15,9 +17,11 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Dashboard />} />
                         <Route path="/upload" element={<Upload />} />
+                        <Route path="/guided" element={<GuidedSelector />} />
                         <Route path="/configure/:datasheetId" element={<Configurator />} />
                         <Route path="/build/:datasheetId" element={<PartBuilder />} />
                         <Route path="/search" element={<Search />} />
+                        <Route path="/settings" element={<Settings />} />
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
                 </main>
@@ -27,3 +31,4 @@ function App() {
 }
 
 export default App;
+

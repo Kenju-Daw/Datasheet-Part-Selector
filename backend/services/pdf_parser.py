@@ -205,6 +205,7 @@ async def process_datasheet_pdf(datasheet_id: str, file_path: str):
                 "table_count": len(tables),
                 "tables": tables,
                 "text": doc.export_to_markdown() if hasattr(doc, 'export_to_markdown') else "",
+                "doc_json": doc.export_to_dict() if hasattr(doc, 'export_to_dict') else {},
                 "metadata": {
                     "processed_at": datetime.utcnow().isoformat(),
                     "docling_version": "2.0"

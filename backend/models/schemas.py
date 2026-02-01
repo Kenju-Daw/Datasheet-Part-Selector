@@ -201,3 +201,48 @@ class ArchiveResponse(BaseModel):
     action: str
     success: bool
     message: str
+    success: bool
+    message: str
+
+
+# ============ Chat Schemas (GPS-001) ============
+
+class ChatMessageRole(str, Enum):
+    """Role of the message sender"""
+    USER = "user"
+    ASSISTANT = "assistant"
+    SYSTEM = "system"
+
+
+class ChatMessageCreate(BaseModel):
+    """Schema for creating a chat message"""
+    role: ChatMessageRole
+    content: str
+    meta_data: Optional[Dict[str, Any]] = None
+
+
+class ChatMessageResponse(ChatMessageCreate):
+    """Schema for chat message response"""
+    id: str
+    session_id: str
+    created_at: datetime
+    
+    class Config:
+        from_attributes = True
+
+
+class ChatSessionCreate(BaseModel):
+    """Schema for creating a chat session"""
+    title: Optional[str] = "New Chat"
+
+
+class ChatSessionResponse(BaseModel):
+    """Schema for chat session response"""
+    id: str
+    title: Optional[str]
+    created_at: datetime
+    updated_at: Optional[datetime]
+    messages: List[ChatMessageResponse] = []
+    
+    class Config:
+        from_attributes = True

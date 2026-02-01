@@ -1,5 +1,6 @@
 # Environment
 .env
+user_settings.json
 venv/
 __pycache__/
 *.pyc

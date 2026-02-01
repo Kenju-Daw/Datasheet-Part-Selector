@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { datasheetAPI, partsAPI } from '../api/client';
 
-const API_BASE = 'http://localhost:8000/api/parts';
+const API_BASE = '/api/parts';
 
 // =============================================================================
 // REFERENCE DATA - Contact sizes, connectors, finishes with detailed specs
@@ -216,8 +217,16 @@ export default function PartBuilder() {
     });
     const [generatedPN, setGeneratedPN] = useState(null);
     const [builderData, setBuilderData] = useState(null);
+    const [error, setError] = useState(null);
+
+    // Import/Decode State
+    const [importPn, setImportPn] = useState('');
+    const [importing, setImporting] = useState(false);
+
     const [copied, setCopied] = useState(false);
     const [activeTooltip, setActiveTooltip] = useState(null);
+    const [suggestion, setSuggestion] = useState(null);
+    const [multiConnector, setMultiConnector] = useState(null);
 
     // Load reference data
     useEffect(() => {
@@ -275,6 +284,41 @@ export default function PartBuilder() {
     };
 
     // Handlers
+    const handleImport = async () => {
+        if (!importPn.trim()) return;
+        setImporting(true);
+        setError(null);
+        try {
+            const res = await partsAPI.decode(importPn);
+
+            if (res.is_valid && res.field_values) {
+                // Determine insert from decoded values if possible
+                const decodedInsert = res.field_values.insert_arrangement;
+                const decodedShell = res.field_values.shell_size;
+
+                // Update configuration
+                setConfig(prev => ({ ...prev, ...res.field_values }));
+
+                // Show success message
+                const msg = `Decoded: Shell ${decodedShell}, Insert ${decodedInsert}. Config updated!`;
+
+                // We could also try to auto-select the insert if we found a match
+                // For now, let's at least visually indicate success
+                setSuggestion(`✅ Valid Part Number! Decoded attributes applied to configuration.`);
+
+                // Optional: Jump to Config step if they want
+                // setCurrentStep(3);
+            } else {
+                setError("Could not decode part number. Check format.");
+            }
+        } catch (e) {
+            console.error(e);
+            setError("Import failed. Server error.");
+        } finally {
+            setImporting(false);
+        }
+    };
+
     const addContactRow = () => {
         setContactRequirements([...contactRequirements, { size: '22D', quantity: 1 }]);
     };
@@ -291,16 +335,26 @@ export default function PartBuilder() {
 
     const searchInserts = async () => {
         setSearching(true);
+        setSuggestion(null);
+        setMultiConnector(null);
         try {
+            console.log('[Debug] Searching inserts:', { datasheetId, contactRequirements });
             const res = await fetch(`${API_BASE}/search-inserts`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ datasheet_id: datasheetId, requirements: contactRequirements })
             });
+            console.log('[Debug] Search response status:', res.status);
+
             if (res.ok) {
                 const data = await res.json();
+                console.log('[Debug] Search data:', data);
                 setInsertMatches(data.matches);
+                setSuggestion(data.suggestion);
+                setMultiConnector(data.multi_connector);
                 setCurrentStep(2);
+            } else {
+                console.error('[Debug] Search failed:', await res.text());
             }
         } catch (e) {
             console.error('Insert search failed:', e);
@@ -390,6 +444,38 @@ export default function PartBuilder() {
             {currentStep === 1 && (
                 <section className="card step-card">
                     <h2>📋 What contacts do you need?</h2>
+
+                    {/* Decoder Section */}
+                    <div className="decoder-box" style={{
+                        background: 'var(--bg-tertiary)',
+                        padding: '1rem',
+                        borderRadius: 'var(--radius-md)',
+                        marginBottom: '1.5rem',
+                        border: '1px solid var(--border-subtle)'
+                    }}>
+                        <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
+                            <div className="input-group" style={{ flex: 1 }}>
+                                <label className="input-label" style={{ fontSize: '0.75rem' }}>
+                                    Already have a part number? Import it:
+                                </label>
+                                <input
+                                    className="input"
+                                    placeholder="e.g. D38999/20WA98PN"
+                                    value={importPn}
+                                    onChange={e => setImportPn(e.target.value)}
+                                    onKeyDown={e => e.key === 'Enter' && handleImport()}
+                                />
+                            </div>
+                            <button
+                                className="btn btn-secondary"
+                                onClick={handleImport}
+                                disabled={importing || !importPn}
+                            >
+                                {importing ? '...' : '🪄 Decode'}
+                            </button>
+                        </div>
+                    </div>
+
                     <p className="help-text">Select contact sizes and quantities. AWG and current ratings shown.</p>
 
                     <table className="requirements-table">
@@ -482,66 +568,105 @@ export default function PartBuilder() {
                 <section className="card step-card">
                     <h2>🔍 Select Insert Arrangement</h2>
                     <p className="help-text">
-                        {insertMatches.length} compatible insert{insertMatches.length !== 1 && 's'} for {totalContacts} contacts
+                        {insertMatches.length} option{insertMatches.length !== 1 && 's'} for {totalContacts} contacts
                     </p>
 
-                    {insertMatches.length === 0 ? (
-                        <div className="empty-state">
-                            <p>No matches found. Try different contact requirements.</p>
-                            <button className="btn btn-secondary" onClick={() => setCurrentStep(1)}>
-                                ← Modify
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="insert-grid">
-                            {insertMatches.map(insert => {
-                                const unavailable = !insert.is_standard && insert.match_type === 'over';
-                                return (
-                                    <Tooltip
-                                        key={insert.code}
-                                        content={`${insert.service_rating} service • ${insert.total_contacts} total positions`}
-                                    >
-                                        <div
-                                            className={`insert-card ${insert.match_type} ${unavailable ? 'unavailable' : ''}`}
-                                            onClick={() => !unavailable && selectInsert(insert)}
-                                        >
-                                            <header className="insert-header">
-                                                <span className="insert-code">{insert.code}</span>
-                                                <span className={`badge ${insert.match_type}`}>
-                                                    {insert.match_type === 'exact' && '✓ Exact'}
-                                                    {insert.match_type === 'close' && '≈ Close'}
-                                                    {insert.match_type === 'over' && '+ Over'}
-                                                </span>
-                                            </header>
-
-                                            <div className="insert-specs">
-                                                <span>Shell <strong>{insert.shell_size}</strong></span>
-                                                <span>{insert.total_contacts} pos</span>
-                                            </div>
-
-                                            <div className="contact-chips">
-                                                {Object.entries(insert.contact_breakdown).map(([size, qty]) => (
-                                                    <span key={size} className="chip">
-                                                        {qty}× {size}
-                                                    </span>
-                                                ))}
-                                            </div>
-
-                                            {Object.values(insert.extra_positions).some(v => v > 0) && (
-                                                <div className="extra-note">
-                                                    +{Object.values(insert.extra_positions).reduce((a, b) => a + b, 0)} extra positions
-                                                </div>
-                                            )}
-
-                                            <footer className={`availability ${insert.is_standard ? 'in-stock' : 'special'}`}>
-                                                {insert.is_standard ? '✓ In Stock' : unavailable ? '🚫 N/A' : '⏳ Special'}
-                                            </footer>
-                                        </div>
-                                    </Tooltip>
-                                );
-                            })}
+                    {/* Suggestion Banner */}
+                    {suggestion && (
+                        <div className="suggestion-banner">
+                            💡 {suggestion}
                         </div>
                     )}
+
+                    {/* Multi-Connector Suggestion */}
+                    {multiConnector && (
+                        <div className="multi-connector-card">
+                            <h3>🔗 Dual Connector Solution</h3>
+                            <p>{multiConnector.note}</p>
+                            <div className="dual-connectors">
+                                <div className="connector-mini">
+                                    <strong>{multiConnector.connector_1.code}</strong>
+                                    <span>{multiConnector.connector_1.total_contacts} contacts</span>
+                                </div>
+                                <span className="plus">+</span>
+                                <div className="connector-mini">
+                                    <strong>{multiConnector.connector_2.code}</strong>
+                                    <span>{multiConnector.connector_2.total_contacts} contacts</span>
+                                </div>
+                                <span className="equals">=</span>
+                                <div className="connector-mini total">
+                                    <strong>{multiConnector.total_capacity}</strong>
+                                    <span>total</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Insert Grid */}
+                    <div className="insert-grid">
+                        {insertMatches.map(insert => {
+                            const isPartial = insert.match_type === 'partial';
+                            const unavailable = !insert.is_standard && insert.match_type === 'over';
+                            const isAmphenol = !insert.is_standard;
+
+                            return (
+                                <Tooltip
+                                    key={insert.code}
+                                    content={`${insert.service_rating} service • ${insert.total_contacts} positions${isAmphenol ? ' • Amphenol-specific' : ' • MIL-standard'}`}
+                                >
+                                    <div
+                                        className={`insert-card ${insert.match_type} ${unavailable ? 'unavailable' : ''} ${isAmphenol ? 'amphenol' : ''}`}
+                                        onClick={() => !unavailable && !isPartial && selectInsert(insert)}
+                                    >
+                                        <header className="insert-header">
+                                            <span className="insert-code">{insert.code}</span>
+                                            <span className={`badge ${insert.match_type}`}>
+                                                {insert.match_type === 'exact' && '✓ Exact'}
+                                                {insert.match_type === 'close' && '≈ Close'}
+                                                {insert.match_type === 'over' && '+ Over'}
+                                                {insert.match_type === 'partial' && '⚠ Partial'}
+                                            </span>
+                                        </header>
+
+                                        <div className="insert-specs">
+                                            <span>Shell <strong>{insert.shell_size}</strong></span>
+                                            <span>{insert.total_contacts} pos</span>
+                                        </div>
+
+                                        <div className="contact-chips">
+                                            {Object.entries(insert.contact_breakdown).map(([size, qty]) => (
+                                                <span key={size} className="chip">
+                                                    {qty}× {size}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        {/* Extra positions */}
+                                        {insert.extra_positions && Object.values(insert.extra_positions).some(v => v > 0) && (
+                                            <div className="extra-note success">
+                                                +{Object.values(insert.extra_positions).reduce((a, b) => a + b, 0)} extra positions
+                                            </div>
+                                        )}
+
+                                        {/* Missing contacts for partial matches */}
+                                        {insert.missing_contacts && Object.keys(insert.missing_contacts).length > 0 && (
+                                            <div className="missing-note">
+                                                ❌ Missing: {Object.entries(insert.missing_contacts).map(([size, qty]) =>
+                                                    `${qty}× ${size}`
+                                                ).join(', ')}
+                                            </div>
+                                        )}
+
+                                        <footer className={`availability ${insert.is_standard ? 'mil-standard' : 'amphenol-specific'}`}>
+                                            {insert.is_standard
+                                                ? '✓ MIL Standard'
+                                                : '🅰️ Amphenol Specific'}
+                                        </footer>
+                                    </div>
+                                </Tooltip>
+                            );
+                        })}
+                    </div>
 
                     <div className="step-nav">
                         <button className="btn btn-ghost" onClick={() => setCurrentStep(1)}>
@@ -749,9 +874,29 @@ export default function PartBuilder() {
                         <button className="btn btn-ghost" onClick={() => setCurrentStep(1)}>
                             ← Start Over
                         </button>
-                        <button className="btn btn-secondary" onClick={() => setCurrentStep(3)}>
-                            Modify Config
-                        </button>
+                        <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+                            <button
+                                className="btn btn-secondary"
+                                onClick={() => {
+                                    const { exportToCSV } = require('../utils/exportUtils');
+                                    exportToCSV(generatedPN.full, config, generatedPN.breakdown);
+                                }}
+                            >
+                                📄 Export CSV
+                            </button>
+                            <button
+                                className="btn btn-secondary"
+                                onClick={() => {
+                                    const { exportToJSON } = require('../utils/exportUtils');
+                                    exportToJSON(generatedPN.full, config, generatedPN.breakdown);
+                                }}
+                            >
+                                📦 Export JSON
+                            </button>
+                            <button className="btn btn-secondary" onClick={() => setCurrentStep(3)}>
+                                Modify Config
+                            </button>
+                        </div>
                     </div>
                 </section>
             )}
@@ -962,14 +1107,98 @@ export default function PartBuilder() {
                     color: var(--text-muted);
                     margin-bottom: var(--space-2);
                 }
+                .extra-note.success { color: var(--success); }
+                .missing-note {
+                    font-size: 0.7rem;
+                    color: var(--error, #ef4444);
+                    margin-bottom: var(--space-2);
+                    padding: 4px 8px;
+                    background: rgba(239, 68, 68, 0.1);
+                    border-radius: 4px;
+                }
                 .availability {
                     font-size: 0.75rem;
                     font-weight: 600;
                     padding: var(--space-1) 0;
                     border-top: 1px solid var(--border-subtle);
                 }
-                .availability.in-stock { color: var(--success); }
-                .availability.special { color: var(--warning); }
+                .availability.mil-standard { color: var(--success); }
+                .availability.amphenol-specific { color: #8b5cf6; }
+                
+                /* Suggestion Banner */
+                .suggestion-banner {
+                    padding: var(--space-3) var(--space-4);
+                    background: rgba(59, 130, 246, 0.1);
+                    border: 1px solid rgba(59, 130, 246, 0.3);
+                    border-radius: var(--radius-md);
+                    margin-bottom: var(--space-4);
+                    color: var(--text-primary);
+                    font-size: 0.875rem;
+                }
+                
+                /* Multi-Connector Card */
+                .multi-connector-card {
+                    padding: var(--space-4);
+                    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+                    border: 1px solid rgba(139, 92, 246, 0.3);
+                    border-radius: var(--radius-lg);
+                    margin-bottom: var(--space-4);
+                }
+                .multi-connector-card h3 {
+                    margin: 0 0 var(--space-2) 0;
+                    font-size: 1rem;
+                    color: #8b5cf6;
+                }
+                .multi-connector-card p {
+                    margin: 0 0 var(--space-3) 0;
+                    font-size: 0.875rem;
+                    color: var(--text-muted);
+                }
+                .dual-connectors {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: var(--space-3);
+                    flex-wrap: wrap;
+                }
+                .connector-mini {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: var(--space-2) var(--space-3);
+                    background: var(--bg-primary);
+                    border-radius: var(--radius-md);
+                    border: 1px solid var(--border-subtle);
+                }
+                .connector-mini strong {
+                    font-size: 1rem;
+                    color: var(--accent-primary);
+                }
+                .connector-mini span {
+                    font-size: 0.7rem;
+                    color: var(--text-muted);
+                }
+                .connector-mini.total {
+                    background: var(--success);
+                    border-color: var(--success);
+                }
+                .connector-mini.total strong,
+                .connector-mini.total span { color: white; }
+                .plus, .equals {
+                    font-size: 1.25rem;
+                    font-weight: bold;
+                    color: var(--text-muted);
+                }
+                
+                /* Partial and Amphenol badges */
+                .badge.partial { background: #f97316; color: white; }
+                .insert-card.partial {
+                    border-color: #f97316;
+                    border-style: dashed;
+                    cursor: not-allowed;
+                    opacity: 0.7;
+                }
+                .insert-card.amphenol { border-left: 3px solid #8b5cf6; }
 
                 /* Config Grid */
                 .config-grid {

@@ -8,9 +8,11 @@ Implements requirements:
 - PDF-013: Stage-by-stage LLM progress
 """
 import json
+import asyncio
+import httpx
 from typing import Optional, Callable, Any
 
-from config import get_settings
+from config import get_settings, get_effective_api_key
 from models.schemas import ProgressStage
 
 
@@ -130,8 +132,11 @@ async def process_extraction_with_llm(
         if progress_callback:
             progress_callback(stage, percent, message)
     
-    # Check if Gemini API key is configured
-    if not settings.gemini_api_key:
+    # Get effective API key, provider, and selected model
+    api_key, provider, selected_model = get_effective_api_key()
+    
+    # Check if any API key is configured
+    if not api_key:
         # Use example schema for development
         update_progress(ProgressStage.LLM_ANALYZE, 70.0, "No API key - using example D38999 schema")
         update_progress(ProgressStage.LLM_EXTRACT, 80.0, "Loading pre-defined field definitions")
@@ -139,127 +144,17 @@ async def process_extraction_with_llm(
         return D38999_EXAMPLE_SCHEMA
     
     try:
-        import google.generativeai as genai
-        
-        # Configure Gemini
-        genai.configure(api_key=settings.gemini_api_key)
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        
-        # ============ Stage 1: Analyze Structure (65-70%) ============
-        update_progress(ProgressStage.LLM_ANALYZE, 67.0, "Analyzing document structure...")
-        
-        # Prepare context from extraction
-        text_content = raw_extraction.get("text", "")[:10000]  # Limit context
-        table_summary = f"Found {raw_extraction.get('table_count', 0)} tables"
-        
-        # Initial analysis prompt
-        analysis_prompt = f"""
-        Analyze this technical datasheet content and identify:
-        1. The manufacturer and product family
-        2. The part number structure/format
-        3. Key specification categories
-        
-        Content excerpt:
-        {text_content[:3000]}
-        
-        {table_summary}
-        
-        Respond in JSON format:
-        {{
-            "manufacturer": "...",
-            "product_family": "...",
-            "part_number_prefix": "...",
-            "part_number_example": "...",
-            "field_count_estimate": N
-        }}
-        """
-        
-        response = await asyncio.get_event_loop().run_in_executor(
-            None, 
-            lambda: model.generate_content(analysis_prompt)
-        )
-        
-        try:
-            analysis = json.loads(response.text)
-        except json.JSONDecodeError:
-            # Extract JSON from response
-            import re
-            json_match = re.search(r'\{[^{}]*\}', response.text, re.DOTALL)
-            if json_match:
-                analysis = json.loads(json_match.group())
-            else:
-                analysis = {}
-        
-        update_progress(ProgressStage.LLM_ANALYZE, 70.0, 
-                       f"Identified: {analysis.get('product_family', 'Unknown')}")
-        
-        # ============ Stage 2: Extract Fields (70-80%) ============
-        update_progress(ProgressStage.LLM_EXTRACT, 72.0, "Extracting field definitions...")
-        
-        # Field extraction prompt
-        extract_prompt = f"""
-        For this datasheet with part number format like: {analysis.get('part_number_example', 'Unknown')}
-        
-        Extract the configurable fields in the part number structure.
-        For each field, identify:
-        - Name (human readable)
-        - Code (short identifier)
-        - Allowed values (code, name, description)
-        - Whether it's required
-        
-        Content:
-        {text_content[:5000]}
-        
-        Respond as JSON array:
-        [
-            {{
-                "name": "Field Name",
-                "code": "fieldcode",
-                "type": "enum",
-                "required": true,
-                "description": "...",
-                "values": [
-                    {{"code": "X", "name": "Value Name", "description": "..."}}
-                ]
-            }}
-        ]
-        """
-        
-        response = await asyncio.get_event_loop().run_in_executor(
-            None,
-            lambda: model.generate_content(extract_prompt)
-        )
-        
-        try:
-            fields = json.loads(response.text)
-        except json.JSONDecodeError:
-            import re
-            json_match = re.search(r'\[[\s\S]*\]', response.text)
-            if json_match:
-                fields = json.loads(json_match.group())
-            else:
-                fields = D38999_EXAMPLE_SCHEMA["fields"]
-        
-        update_progress(ProgressStage.LLM_EXTRACT, 80.0, 
-                       f"Extracted {len(fields)} configurable fields")
-        
-        # ============ Stage 3: Build Schema (80-90%) ============
-        update_progress(ProgressStage.LLM_SCHEMA, 85.0, "Building part number schema...")
-        
-        # Construct the schema
-        schema = {
-            "prefix": analysis.get("part_number_prefix", ""),
-            "pattern": "{" + "}{".join(f.get("code", f"f{i}") for i, f in enumerate(fields)) + "}",
-            "fields": fields,
-            "validation_rules": {}
-        }
-        
-        update_progress(ProgressStage.LLM_SCHEMA, 90.0, "Schema construction complete")
-        
-        return schema
+        if provider == "openrouter":
+            # Use OpenRouter API with selected model
+            model_id = selected_model or "google/gemini-2.0-flash-exp:free"
+            return await _process_with_openrouter(api_key, raw_extraction, update_progress, model_id)
+        else:
+            # Use Google Gemini API with selected model
+            model_name = selected_model.replace("models/", "") if selected_model else "gemini-2.0-flash"
+            return await _process_with_gemini(api_key, raw_extraction, update_progress, model_name)
         
     except ImportError:
-        update_progress(ProgressStage.LLM_ANALYZE, 70.0, "Gemini SDK not available - using fallback")
+        update_progress(ProgressStage.LLM_ANALYZE, 70.0, "LLM SDK not available - using fallback")
         return D38999_EXAMPLE_SCHEMA
         
     except Exception as e:
@@ -267,5 +162,201 @@ async def process_extraction_with_llm(
         return D38999_EXAMPLE_SCHEMA
 
 
-# Need asyncio for run_in_executor
-import asyncio
+async def _process_with_gemini(api_key: str, raw_extraction: dict, update_progress: Callable, model_name: str = "gemini-2.0-flash") -> dict:
+    """Process extraction using Google Gemini API"""
+    import google.generativeai as genai
+    
+    # Configure Gemini
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel(model_name)
+    
+    # Prepare context from extraction
+    text_content = raw_extraction.get("text", "")[:10000]  # Limit context
+    table_summary = f"Found {raw_extraction.get('table_count', 0)} tables"
+    
+    # ============ Stage 1: Analyze Structure (65-70%) ============
+    update_progress(ProgressStage.LLM_ANALYZE, 67.0, "Analyzing document structure...")
+    
+    analysis_prompt = f"""
+    Analyze this technical datasheet content and identify:
+    1. The manufacturer and product family
+    2. The part number structure/format
+    3. Key specification categories
+    
+    Content excerpt:
+    {text_content[:3000]}
+    
+    {table_summary}
+    
+    Respond in JSON format:
+    {{
+        "manufacturer": "...",
+        "product_family": "...",
+        "part_number_prefix": "...",
+        "part_number_example": "...",
+        "field_count_estimate": N
+    }}
+    """
+    
+    response = await asyncio.get_event_loop().run_in_executor(
+        None, 
+        lambda: model.generate_content(analysis_prompt)
+    )
+    
+    analysis = _parse_json_response(response.text, {})
+    update_progress(ProgressStage.LLM_ANALYZE, 70.0, 
+                   f"Identified: {analysis.get('product_family', 'Unknown')}")
+    
+    # ============ Stage 2: Extract Fields (70-80%) ============
+    update_progress(ProgressStage.LLM_EXTRACT, 72.0, "Extracting field definitions...")
+    
+    extract_prompt = _build_extract_prompt(analysis, text_content)
+    
+    response = await asyncio.get_event_loop().run_in_executor(
+        None,
+        lambda: model.generate_content(extract_prompt)
+    )
+    
+    fields = _parse_json_response(response.text, D38999_EXAMPLE_SCHEMA["fields"], is_array=True)
+    update_progress(ProgressStage.LLM_EXTRACT, 80.0, 
+                   f"Extracted {len(fields)} configurable fields")
+    
+    # ============ Stage 3: Build Schema (80-90%) ============
+    return _build_schema(analysis, fields, update_progress)
+
+
+async def _process_with_openrouter(api_key: str, raw_extraction: dict, update_progress: Callable, model_id: str = "google/gemini-2.0-flash-exp:free") -> dict:
+    """Process extraction using OpenRouter API"""
+    
+    # Prepare context from extraction
+    text_content = raw_extraction.get("text", "")[:10000]  # Limit context
+    table_summary = f"Found {raw_extraction.get('table_count', 0)} tables"
+    
+    # ============ Stage 1: Analyze Structure (65-70%) ============
+    update_progress(ProgressStage.LLM_ANALYZE, 67.0, "Analyzing document structure (OpenRouter)...")
+    
+    analysis_prompt = f"""
+    Analyze this technical datasheet content and identify:
+    1. The manufacturer and product family
+    2. The part number structure/format
+    3. Key specification categories
+    
+    Content excerpt:
+    {text_content[:3000]}
+    
+    {table_summary}
+    
+    Respond in JSON format:
+    {{
+        "manufacturer": "...",
+        "product_family": "...",
+        "part_number_prefix": "...",
+        "part_number_example": "...",
+        "field_count_estimate": N
+    }}
+    """
+    
+    response = await _call_openrouter(api_key, analysis_prompt, model_id)
+    analysis = _parse_json_response(response, {})
+    update_progress(ProgressStage.LLM_ANALYZE, 70.0, 
+                   f"Identified: {analysis.get('product_family', 'Unknown')}")
+    
+    # ============ Stage 2: Extract Fields (70-80%) ============
+    update_progress(ProgressStage.LLM_EXTRACT, 72.0, "Extracting field definitions...")
+    
+    extract_prompt = _build_extract_prompt(analysis, text_content)
+    response = await _call_openrouter(api_key, extract_prompt, model_id)
+    
+    fields = _parse_json_response(response, D38999_EXAMPLE_SCHEMA["fields"], is_array=True)
+    update_progress(ProgressStage.LLM_EXTRACT, 80.0, 
+                   f"Extracted {len(fields)} configurable fields")
+    
+    # ============ Stage 3: Build Schema (80-90%) ============
+    return _build_schema(analysis, fields, update_progress)
+
+
+async def _call_openrouter(api_key: str, prompt: str, model_id: str = "google/gemini-2.0-flash-exp:free") -> str:
+    """Make a call to OpenRouter API"""
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": model_id,
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 4096,
+            },
+            timeout=60.0,
+        )
+        
+        if response.status_code != 200:
+            raise Exception(f"OpenRouter API error: {response.status_code}")
+        
+        data = response.json()
+        return data.get("choices", [{}])[0].get("message", {}).get("content", "")
+
+
+def _build_extract_prompt(analysis: dict, text_content: str) -> str:
+    """Build the field extraction prompt"""
+    return f"""
+    For this datasheet with part number format like: {analysis.get('part_number_example', 'Unknown')}
+    
+    Extract the configurable fields in the part number structure.
+    For each field, identify:
+    - Name (human readable)
+    - Code (short identifier)
+    - Allowed values (code, name, description)
+    - Whether it's required
+    
+    Content:
+    {text_content[:5000]}
+    
+    Respond as JSON array:
+    [
+        {{
+            "name": "Field Name",
+            "code": "fieldcode",
+            "type": "enum",
+            "required": true,
+            "description": "...",
+            "values": [
+                {{"code": "X", "name": "Value Name", "description": "..."}}
+            ]
+        }}
+    ]
+    """
+
+
+def _parse_json_response(response_text: str, fallback: Any, is_array: bool = False) -> Any:
+    """Parse JSON from LLM response with fallback"""
+    import re
+    try:
+        return json.loads(response_text)
+    except json.JSONDecodeError:
+        pattern = r'\[[\s\S]*\]' if is_array else r'\{[^{}]*\}'
+        json_match = re.search(pattern, response_text, re.DOTALL)
+        if json_match:
+            try:
+                return json.loads(json_match.group())
+            except json.JSONDecodeError:
+                pass
+        return fallback
+
+
+def _build_schema(analysis: dict, fields: list, update_progress: Callable) -> dict:
+    """Build the final schema from analysis and fields"""
+    update_progress(ProgressStage.LLM_SCHEMA, 85.0, "Building part number schema...")
+    
+    schema = {
+        "prefix": analysis.get("part_number_prefix", ""),
+        "pattern": "{" + "}{".join(f.get("code", f"f{i}") for i, f in enumerate(fields)) + "}",
+        "fields": fields,
+        "validation_rules": {}
+    }
+    
+    update_progress(ProgressStage.LLM_SCHEMA, 90.0, "Schema construction complete")
+    return schema
+

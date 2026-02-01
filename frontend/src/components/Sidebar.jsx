@@ -8,76 +8,86 @@ import { datasheetAPI } from '../api/client';
  * Implements UI-010: Intuitive navigation
  */
 function Sidebar() {
-    const [datasheets, setDatasheets] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [datasheets, setDatasheets] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        loadDatasheets();
-    }, []);
+  useEffect(() => {
+    loadDatasheets();
+  }, []);
 
-    const loadDatasheets = async () => {
-        try {
-            const response = await datasheetAPI.list(1, 5);
-            setDatasheets(response.items || []);
-        } catch (error) {
-            console.error('Failed to load datasheets:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+  const loadDatasheets = async () => {
+    try {
+      const response = await datasheetAPI.list(1, 5);
+      setDatasheets(response.items || []);
+    } catch (error) {
+      console.error('Failed to load datasheets:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return (
-        <aside className="sidebar">
-            <div className="sidebar-header">
-                <div className="logo">
-                    <span className="logo-icon">📊</span>
-                    <span className="logo-text">Part Selector</span>
-                </div>
-            </div>
+  return (
+    <aside className="sidebar">
+      <div className="sidebar-header">
+        <div className="logo">
+          <span className="logo-icon">📊</span>
+          <span className="logo-text">Part Selector</span>
+        </div>
+      </div>
 
-            <nav className="sidebar-nav">
-                <NavLink to="/" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-                    <span className="nav-icon">🏠</span>
-                    <span className="nav-label">Dashboard</span>
-                </NavLink>
+      <nav className="sidebar-nav">
+        <NavLink to="/" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+          <span className="nav-icon">🏠</span>
+          <span className="nav-label">Dashboard</span>
+        </NavLink>
 
-                <NavLink to="/upload" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-                    <span className="nav-icon">📤</span>
-                    <span className="nav-label">Upload</span>
-                </NavLink>
+        <NavLink to="/guided" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+          <span className="nav-icon">🤖</span>
+          <span className="nav-label">Guided Selector</span>
+        </NavLink>
 
-                <NavLink to="/search" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-                    <span className="nav-icon">🔍</span>
-                    <span className="nav-label">Search</span>
-                </NavLink>
-            </nav>
+        <NavLink to="/upload" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+          <span className="nav-icon">📤</span>
+          <span className="nav-label">Upload</span>
+        </NavLink>
 
-            <div className="sidebar-section">
-                <div className="section-header">
-                    <span className="section-title">DATASHEETS</span>
-                </div>
+        <NavLink to="/search" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+          <span className="nav-icon">🔍</span>
+          <span className="nav-label">Search</span>
+        </NavLink>
 
-                <div className="datasheet-list">
-                    {loading ? (
-                        <div className="skeleton" style={{ height: '40px', marginBottom: '8px' }}></div>
-                    ) : datasheets.length === 0 ? (
-                        <p className="text-muted text-sm">No datasheets yet</p>
-                    ) : (
-                        datasheets.map(ds => (
-                            <NavLink
-                                key={ds.id}
-                                to={`/configure/${ds.id}`}
-                                className={({ isActive }) => `datasheet-item ${isActive ? 'active' : ''}`}
-                            >
-                                <span className="ds-status" data-status={ds.status}></span>
-                                <span className="ds-name">{ds.name}</span>
-                            </NavLink>
-                        ))
-                    )}
-                </div>
-            </div>
+        <NavLink to="/settings" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+          <span className="nav-icon">⚙️</span>
+          <span className="nav-label">Settings</span>
+        </NavLink>
+      </nav>
 
-            <style>{`
+      <div className="sidebar-section">
+        <div className="section-header">
+          <span className="section-title">DATASHEETS</span>
+        </div>
+
+        <div className="datasheet-list">
+          {loading ? (
+            <div className="skeleton" style={{ height: '40px', marginBottom: '8px' }}></div>
+          ) : datasheets.length === 0 ? (
+            <p className="text-muted text-sm">No datasheets yet</p>
+          ) : (
+            datasheets.map(ds => (
+              <NavLink
+                key={ds.id}
+                to={`/configure/${ds.id}`}
+                className={({ isActive }) => `datasheet-item ${isActive ? 'active' : ''}`}
+              >
+                <span className="ds-status" data-status={ds.status}></span>
+                <span className="ds-name">{ds.name}</span>
+              </NavLink>
+            ))
+          )}
+        </div>
+      </div>
+
+      <style>{`
         .sidebar {
           width: var(--sidebar-width);
           height: 100vh;
@@ -222,8 +232,8 @@ function Sidebar() {
           }
         }
       `}</style>
-        </aside>
-    );
+    </aside>
+  );
 }
 
 export default Sidebar;

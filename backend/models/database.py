@@ -224,6 +224,44 @@ class DistributorListing(Base):
     variant = relationship("PartVariant", back_populates="distributor_listings")
 
 
+
+class ChatSession(Base):
+    """
+    Represents a conversational session with the Guided Part Selector (GPS-006)
+    """
+    __tablename__ = "chat_sessions"
+    
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    title = Column(String(255), nullable=True, default="New Chat")
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Relationships
+    messages = relationship("ChatMessage", back_populates="session", cascade="all, delete-orphan")
+
+
+class ChatMessage(Base):
+    """
+    Individual message in a chat session
+    """
+    __tablename__ = "chat_messages"
+    
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    session_id = Column(String(36), ForeignKey("chat_sessions.id"), nullable=False)
+    
+    role = Column(String(50), nullable=False)  # 'user', 'assistant'
+    content = Column(Text, nullable=False)
+    
+    # Metadata for source linking (GPS-005)
+    # Stores sources: [{"datasheet_id": "...", "page": 1, "bbox": [...]}]
+    meta_data = Column(JSON, nullable=True)
+    
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    # Relationships
+    session = relationship("ChatSession", back_populates="messages")
+
+
 # Database engine and session factory
 async_engine = None
 async_session_factory = None

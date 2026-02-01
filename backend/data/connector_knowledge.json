@@ -1,0 +1,640 @@
+{
+    "metadata": {
+        "version": "1.0.0",
+        "last_updated": "2026-02-01",
+        "source_documents": [
+            "MIL-DTL-38999L",
+            "Amphenol D38999 Series III Datasheet",
+            "MIL-STD-1560 Insert Arrangements"
+        ],
+        "purpose": "Single source of truth for Part Builder and Guided Selector. Prevents data drift and LLM hallucination.",
+        "changelog": [
+            "1.0.0: Initial unified knowledge base from part_builder.py and chat_engine.py"
+        ]
+    },
+    "shell_sizes": {
+        "9": {
+            "letter": "A",
+            "max_contacts": 5
+        },
+        "11": {
+            "letter": "B",
+            "max_contacts": 9
+        },
+        "13": {
+            "letter": "C",
+            "max_contacts": 14
+        },
+        "15": {
+            "letter": "D",
+            "max_contacts": 19
+        },
+        "17": {
+            "letter": "E",
+            "max_contacts": 26
+        },
+        "19": {
+            "letter": "F",
+            "max_contacts": 39
+        },
+        "21": {
+            "letter": "G",
+            "max_contacts": 55
+        },
+        "23": {
+            "letter": "H",
+            "max_contacts": 79
+        },
+        "25": {
+            "letter": "J",
+            "max_contacts": 100
+        }
+    },
+    "contact_sizes": [
+        {
+            "code": "22D",
+            "awg_range": "22-26",
+            "amps": 5,
+            "description": "High density signal"
+        },
+        {
+            "code": "22",
+            "awg_range": "22-26",
+            "amps": 5,
+            "description": "Standard signal"
+        },
+        {
+            "code": "20",
+            "awg_range": "20-24",
+            "amps": 7.5,
+            "description": "Medium signal, accepts 22AWG"
+        },
+        {
+            "code": "16",
+            "awg_range": "16-20",
+            "amps": 13,
+            "description": "Power"
+        },
+        {
+            "code": "12",
+            "awg_range": "12-16",
+            "amps": 23,
+            "description": "High power"
+        },
+        {
+            "code": "10",
+            "awg_range": "10-14",
+            "amps": 33,
+            "description": "Very high power"
+        },
+        {
+            "code": "8",
+            "awg_range": "8-12",
+            "amps": 46,
+            "description": "Maximum power"
+        }
+    ],
+    "insert_arrangements": [
+        {
+            "code": "9-2",
+            "shell": "9",
+            "total": 2,
+            "contacts": {
+                "20": 2
+            },
+            "rating": "I",
+            "is_mil_standard": true
+        },
+        {
+            "code": "15-4",
+            "shell": "15",
+            "total": 4,
+            "contacts": {
+                "16": 4
+            },
+            "rating": "II",
+            "is_mil_standard": true
+        },
+        {
+            "code": "15-15",
+            "shell": "15",
+            "total": 15,
+            "contacts": {
+                "22": 14,
+                "16": 1
+            },
+            "rating": "I",
+            "is_mil_standard": true
+        },
+        {
+            "code": "15-18",
+            "shell": "15",
+            "total": 18,
+            "contacts": {
+                "22": 18
+            },
+            "rating": "I",
+            "is_mil_standard": true
+        },
+        {
+            "code": "15-19",
+            "shell": "15",
+            "total": 19,
+            "contacts": {
+                "22": 19
+            },
+            "rating": "I",
+            "is_mil_standard": true
+        },
+        {
+            "code": "15-35",
+            "shell": "15",
+            "total": 37,
+            "contacts": {
+                "22D": 37
+            },
+            "rating": "M",
+            "is_mil_standard": true
+        },
+        {
+            "code": "17-6",
+            "shell": "17",
+            "total": 6,
+            "contacts": {
+                "12": 6
+            },
+            "rating": "I",
+            "is_mil_standard": true
+        },
+        {
+            "code": "17-8",
+            "shell": "17",
+            "total": 8,
+            "contacts": {
+                "22": 8
+            },
+            "rating": "II",
+            "is_mil_standard": true
+        },
+        {
+            "code": "17-26",
+            "shell": "17",
+            "total": 26,
+            "contacts": {
+                "22": 26
+            },
+            "rating": "I",
+            "is_mil_standard": true
+        },
+        {
+            "code": "17-35",
+            "shell": "17",
+            "total": 55,
+            "contacts": {
+                "22D": 55
+            },
+            "rating": "M",
+            "is_mil_standard": true,
+            "source_ref": "MIL-STD-1560 Interface 17-35"
+        },
+        {
+            "code": "19-11",
+            "shell": "19",
+            "total": 11,
+            "contacts": {
+                "22": 11
+            },
+            "rating": "II",
+            "is_mil_standard": true
+        },
+        {
+            "code": "19-32",
+            "shell": "19",
+            "total": 32,
+            "contacts": {
+                "22": 32
+            },
+            "rating": "I",
+            "is_mil_standard": true
+        },
+        {
+            "code": "19-35",
+            "shell": "19",
+            "total": 69,
+            "contacts": {
+                "22D": 66,
+                "16": 3
+            },
+            "rating": "M",
+            "is_mil_standard": true
+        },
+        {
+            "code": "21-35",
+            "shell": "21",
+            "total": 82,
+            "contacts": {
+                "22D": 79,
+                "16": 3
+            },
+            "rating": "M",
+            "is_mil_standard": true
+        },
+        {
+            "code": "21-39",
+            "shell": "21",
+            "total": 39,
+            "contacts": {
+                "20": 37,
+                "16": 2
+            },
+            "rating": "M",
+            "is_mil_standard": true,
+            "notes": "Size 20 accepts 20-24 AWG including 22AWG"
+        },
+        {
+            "code": "21-41",
+            "shell": "21",
+            "total": 41,
+            "contacts": {
+                "20": 41
+            },
+            "rating": "I",
+            "is_mil_standard": true
+        },
+        {
+            "code": "21-16",
+            "shell": "21",
+            "total": 16,
+            "contacts": {
+                "16": 16
+            },
+            "rating": "II",
+            "is_mil_standard": true
+        },
+        {
+            "code": "23-35",
+            "shell": "23",
+            "total": 100,
+            "contacts": {
+                "22D": 100
+            },
+            "rating": "M",
+            "is_mil_standard": true
+        },
+        {
+            "code": "23-55",
+            "shell": "23",
+            "total": 55,
+            "contacts": {
+                "20": 55
+            },
+            "rating": "I",
+            "is_mil_standard": true
+        },
+        {
+            "code": "25-35",
+            "shell": "25",
+            "total": 128,
+            "contacts": {
+                "22D": 128
+            },
+            "rating": "M",
+            "is_mil_standard": true
+        },
+        {
+            "code": "25-29",
+            "shell": "25",
+            "total": 29,
+            "contacts": {
+                "16": 29
+            },
+            "rating": "II",
+            "is_mil_standard": true
+        },
+        {
+            "code": "15-25",
+            "shell": "15",
+            "total": 25,
+            "contacts": {
+                "22D": 22,
+                "16": 3
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific"
+        },
+        {
+            "code": "17-2",
+            "shell": "17",
+            "total": 39,
+            "contacts": {
+                "22D": 38,
+                "8TW": 1
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific, Twinax"
+        },
+        {
+            "code": "17-20",
+            "shell": "17",
+            "total": 20,
+            "contacts": {
+                "20": 16,
+                "16": 4
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific"
+        },
+        {
+            "code": "19-18",
+            "shell": "19",
+            "total": 18,
+            "contacts": {
+                "22D": 14,
+                "8TW": 4
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific, Twinax"
+        },
+        {
+            "code": "19-28",
+            "shell": "19",
+            "total": 28,
+            "contacts": {
+                "22": 16,
+                "8TW": 1
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific, Twinax"
+        },
+        {
+            "code": "21-12",
+            "shell": "21",
+            "total": 12,
+            "contacts": {
+                "20": 3,
+                "12": 9
+            },
+            "rating": "I",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific"
+        },
+        {
+            "code": "21-21",
+            "shell": "21",
+            "total": 41,
+            "contacts": {
+                "22D": 32,
+                "12": 9
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific"
+        },
+        {
+            "code": "21-75",
+            "shell": "21",
+            "total": 4,
+            "contacts": {
+                "8TW": 4
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "TWINAX ONLY - Do NOT use for signal wiring"
+        },
+        {
+            "code": "21-99",
+            "shell": "21",
+            "total": 16,
+            "contacts": {
+                "22D": 5,
+                "12": 11
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific"
+        },
+        {
+            "code": "21-121",
+            "shell": "21",
+            "total": 121,
+            "contacts": {
+                "23": 121
+            },
+            "rating": "N",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific, Nano"
+        },
+        {
+            "code": "23-1",
+            "shell": "23",
+            "total": 100,
+            "contacts": {
+                "22M": 100
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific"
+        },
+        {
+            "code": "23-2",
+            "shell": "23",
+            "total": 85,
+            "contacts": {
+                "22": 85
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific"
+        },
+        {
+            "code": "25-16",
+            "shell": "25",
+            "total": 8,
+            "contacts": {
+                "20": 6,
+                "4": 2
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific"
+        },
+        {
+            "code": "25-92",
+            "shell": "25",
+            "total": 101,
+            "contacts": {
+                "22D": 92,
+                "16": 9
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific"
+        },
+        {
+            "code": "25-97",
+            "shell": "25",
+            "total": 42,
+            "contacts": {
+                "22D": 26,
+                "16": 3,
+                "12": 13
+            },
+            "rating": "M",
+            "is_mil_standard": false,
+            "notes": "Amphenol-specific"
+        }
+    ],
+    "connector_types": [
+        {
+            "code": "20",
+            "name": "Wall Mount Receptacle",
+            "description": "Panel-mounted wall receptacle",
+            "is_mil_standard": true
+        },
+        {
+            "code": "21",
+            "name": "Box Mount Receptacle (Hermetic)",
+            "description": "Hermetically sealed box mount",
+            "is_mil_standard": false
+        },
+        {
+            "code": "23",
+            "name": "Jam Nut Receptacle (Hermetic)",
+            "description": "Hermetically sealed jam nut",
+            "is_mil_standard": false
+        },
+        {
+            "code": "24",
+            "name": "Jam Nut Receptacle",
+            "description": "Panel mount with jam nut",
+            "is_mil_standard": true
+        },
+        {
+            "code": "25",
+            "name": "Solder Mount Receptacle (Hermetic)",
+            "description": "Hermetic solder mount",
+            "is_mil_standard": false
+        },
+        {
+            "code": "26",
+            "name": "Straight Plug",
+            "description": "Cable-mounted straight plug",
+            "is_mil_standard": true
+        },
+        {
+            "code": "27",
+            "name": "Weld Mount Receptacle (Hermetic)",
+            "description": "Welded hermetic mount",
+            "is_mil_standard": false
+        },
+        {
+            "code": "29",
+            "name": "Lanyard Release Plug (Pin)",
+            "description": "Quick-release with pins",
+            "is_mil_standard": false
+        },
+        {
+            "code": "30",
+            "name": "Lanyard Release Plug (Socket)",
+            "description": "Quick-release with sockets",
+            "is_mil_standard": false
+        }
+    ],
+    "shell_finishes": [
+        {
+            "code": "W",
+            "name": "Olive Drab Cadmium",
+            "description": "500hr salt spray, -50dB EMI",
+            "rohs_compliant": false
+        },
+        {
+            "code": "F",
+            "name": "Electroless Nickel",
+            "description": "48hr salt spray, -65dB EMI",
+            "rohs_compliant": true
+        },
+        {
+            "code": "T",
+            "name": "Durmalon",
+            "description": "Nickel-PTFE, RoHS alt to Cadmium",
+            "rohs_compliant": true
+        },
+        {
+            "code": "Z",
+            "name": "Zinc-Nickel",
+            "description": "500hr salt spray, RoHS",
+            "rohs_compliant": true
+        },
+        {
+            "code": "K",
+            "name": "Passivated Stainless Steel",
+            "description": "Firewall capable, 500hr salt spray",
+            "rohs_compliant": true
+        },
+        {
+            "code": "L",
+            "name": "Stainless Steel w/ Nickel",
+            "description": "Non-firewall, -65dB EMI",
+            "rohs_compliant": true
+        },
+        {
+            "code": "C",
+            "name": "Anodic Coating",
+            "description": "Non-conductive, 500hr salt spray",
+            "rohs_compliant": true
+        },
+        {
+            "code": "G",
+            "name": "Space Grade Nickel",
+            "description": "Electroless nickel for space",
+            "rohs_compliant": true
+        }
+    ],
+    "contact_part_numbers": {
+        "22D": {
+            "pin": "M39029/58-360",
+            "socket": "M39029/56-348",
+            "seal": "MS27488-22-2"
+        },
+        "22": {
+            "pin": "M39029/58-362",
+            "socket": "M39029/56-350",
+            "seal": "MS27488-22-2"
+        },
+        "20": {
+            "pin": "M39029/58-363",
+            "socket": "M39029/56-351",
+            "seal": "MS27488-20-2"
+        },
+        "16": {
+            "pin": "M39029/58-364",
+            "socket": "M39029/56-352",
+            "seal": "MS27488-16-2"
+        },
+        "12": {
+            "pin": "M39029/58-365",
+            "socket": "M39029/56-353",
+            "seal": "MS27488-12-2"
+        },
+        "10": {
+            "pin": "M39029/58-528",
+            "socket": "M39029/56-527",
+            "seal": null
+        },
+        "8": {
+            "pin": "M39029/60-367",
+            "socket": "M39029/59-366",
+            "seal": "MS27488-8"
+        }
+    },
+    "critical_notes": [
+        "Insert 21-75 is TWINAX ONLY. Never recommend for standard signal wiring.",
+        "Size 20 contacts (M39029/58-363) accept 20-24 AWG wire, including 22 AWG.",
+        "When exact 22D match isn't found, Size 20 is an acceptable substitute for 22 AWG wire."
+    ]
+}

@@ -131,6 +131,36 @@ export const partsAPI = {
     }),
 };
 
+// ============ Chat API (GPS-001) ============
+
+export const chatAPI = {
+    /**
+     * Create new session
+     */
+    createSession: (title) => fetchAPI('/chat/sessions', {
+        method: 'POST',
+        body: JSON.stringify({ title }),
+    }),
+
+    /**
+     * List sessions
+     */
+    listSessions: () => fetchAPI('/chat/sessions'),
+
+    /**
+     * Get session history
+     */
+    getSession: (id) => fetchAPI(`/chat/sessions/${id}`),
+
+    /**
+     * Send message
+     */
+    sendMessage: (sessionId, content) => fetchAPI(`/chat/sessions/${sessionId}/messages`, {
+        method: 'POST',
+        body: JSON.stringify({ role: 'user', content }),
+    }),
+};
+
 // ============ Progress SSE ============
 
 /**
@@ -169,8 +199,44 @@ export function connectProgressStream(datasheetId, onProgress, onComplete, onErr
     return () => eventSource.close();
 }
 
+// ============ Settings API ============
+
+export const settingsAPI = {
+    /**
+     * Get current settings
+     */
+    get: () => fetchAPI('/settings'),
+
+    /**
+     * Save settings
+     */
+    save: (settings) => fetchAPI('/settings', {
+        method: 'POST',
+        body: JSON.stringify(settings),
+    }),
+
+    /**
+     * Test an API key
+     */
+    testKey: (provider, apiKey) => fetchAPI('/settings/test-key', {
+        method: 'POST',
+        body: JSON.stringify({ provider, api_key: apiKey }),
+    }),
+
+    /**
+     * List available models for a provider
+     */
+    listModels: (provider, apiKey = null) => fetchAPI('/settings/list-models', {
+        method: 'POST',
+        body: JSON.stringify({ provider, api_key: apiKey }),
+    }),
+};
+
 export default {
     datasheets: datasheetAPI,
     parts: partsAPI,
+    chat: chatAPI,
+    settings: settingsAPI,
     connectProgressStream,
 };
+

@@ -9,7 +9,9 @@ from .database import (
     DistributorListing,
     ProcessingStatus,
     init_db,
-    get_session
+    get_session,
+    ChatSession,
+    ChatMessage
 )
 
 __all__ = [
@@ -22,5 +24,7 @@ __all__ = [
     "DistributorListing",
     "ProcessingStatus",
     "init_db",
-    "get_session"
+    "get_session",
+    "ChatSession",
+    "ChatMessage"
 ]

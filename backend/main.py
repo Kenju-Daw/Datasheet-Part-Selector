@@ -18,11 +18,12 @@ from sse_starlette.sse import EventSourceResponse
 
 from config import get_settings
 from models import init_db
-from routers import datasheets, parts
+from routers import datasheets, parts, chat
+from routers import settings as settings_router
 from routers.part_builder import router as part_builder_router
 
 
-settings = get_settings()
+app_settings = get_settings()
 
 # Progress update queues for SSE (PDF-014)
 progress_queues: dict[str, asyncio.Queue] = {}
@@ -33,12 +34,12 @@ async def lifespan(app: FastAPI) -> AsyncGenerator:
     """Application lifespan - startup and shutdown"""
     # Startup
     print("🚀 Starting Datasheet Part Selector API...")
-    await init_db(settings.database_url)
+    await init_db(app_settings.database_url)
     print("✅ Database initialized")
     
     # Ensure datasheets directory exists
-    settings.datasheets_dir.mkdir(parents=True, exist_ok=True)
-    print(f"📁 Datasheets directory: {settings.datasheets_dir}")
+    app_settings.datasheets_dir.mkdir(parents=True, exist_ok=True)
+    print(f"📁 Datasheets directory: {app_settings.datasheets_dir}")
     
     yield
     
@@ -67,6 +68,8 @@ app.add_middleware(
 # Include routers
 app.include_router(datasheets.router, prefix="/api/datasheets", tags=["Datasheets"])
 app.include_router(parts.router, prefix="/api/parts", tags=["Parts"])
+app.include_router(chat.router, prefix="/api/chat", tags=["Chat"])
+app.include_router(settings_router.router, prefix="/api/settings", tags=["Settings"])
 app.include_router(part_builder_router, tags=["Part Builder"])
 
 
@@ -140,7 +143,7 @@ async def global_exception_handler(request: Request, exc: Exception):
         status_code=500,
         content={
             "error": "Internal Server Error",
-            "message": str(exc) if settings.debug else "An unexpected error occurred"
+            "message": str(exc) if app_settings.debug else "An unexpected error occurred"
         }
     )
 
@@ -151,7 +154,7 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
         "main:app",
-        host=settings.api_host,
-        port=settings.api_port,
-        reload=settings.debug
+        host=app_settings.api_host,
+        port=app_settings.api_port,
+        reload=app_settings.debug
     )

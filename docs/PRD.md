@@ -156,10 +156,27 @@ An AI-powered web application that:
 | DIST-008 | API keys shall be stored securely in env vars | P1 | No hardcoded credentials |
 | DIST-009 | System shall handle API rate limits gracefully | P2 | Backoff strategy, user notification |
 | DIST-010 | System shall work offline without distributor data | P1 | Configurator functional, stock shows "N/A" |
+| DIST-011 | System shall show distributor logo images | P3 | Icons for identifying sources |
 
 ---
 
-### 2.8 User Experience (UX)
+### 2.8 Guided Part Selector (GPS)
+
+> [!NOTE]
+> Added 2026-02-01: Conversational interface with structured outputs.
+
+| ID | Requirement | Priority | Acceptance Criteria |
+|----|-------------|----------|---------------------|
+| GPS-001 | System shall provide **chat-based interface** | P1 | Natural language query input area |
+| GPS-002 | System shall display **split-view UI** | P1 | Chat on top/left, Fixed Template Results below/right |
+| GPS-003 | System shall use **Fixed Template** for part results | P1 | Standardized cards showing Specs, Image, Stock |
+| GPS-004 | System shall provide **proactive suggestions** | P1 | "Usually paired with...", "Consider alternative X" |
+| GPS-005 | System shall display **original source snippets** | P1 | Clickable citation shows specific PDF crop/highlight |
+| GPS-006 | System shall support **context-aware follow-up** | P2 | "Show me matching backshells" uses previous context |
+
+---
+
+### 2.9 User Experience (UX)
 
 | ID | Requirement | Priority | Acceptance Criteria |
 |----|-------------|----------|---------------------|
